@@ -50,24 +50,19 @@ class TicTacToe
     end
   end
 
-  
+  def turn_count
+    @board.count{|token| token == "X" || token == "O"}
+  end
 
-  def play
-    while !over?
-      turn
-    end
-    if won?
-      puts "Congratulations #{winner(board)}!"
-    elsif draw?
-      puts "Cat's Game!"
-    end
+  def current_player
+    turn_count(@board) % 2 == 0 ? "X" : "O"
   end
 
   def won?
     WIN_COMBINATIONS.detect do |combo|
       @board[combo[0]] == @board[combo[1]] &&
       @board[combo[1]] == @board[combo[2]] &&
-      position_taken?(combo[0])
+      position_taken?(@board[combo[0]])
     end
   end
 
@@ -83,17 +78,20 @@ class TicTacToe
     won? || draw?
   end
 
-  def current_player
-    turn_count(@board) % 2 == 0 ? "X" : "O"
-  end
-
-  def turn_count
-    @board.count{|token| token == "X" || token == "O"}
-  end
-
   def winner
     if winning_combo = won?
       @board[winning_combo.first]
+    end
+  end
+
+  def play
+    while !over?
+      turn
+    end
+    if won?
+      puts "Congratulations #{winner(board)}!"
+    elsif draw?
+      puts "Cat's Game!"
     end
   end
 end
