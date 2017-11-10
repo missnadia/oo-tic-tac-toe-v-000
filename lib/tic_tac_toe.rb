@@ -30,6 +30,28 @@ class TicTacToe
     @board[index] = player
   end
 
+  def position_taken?(index)
+    @board[index]== "X" || @board[index] == "O"
+  end
+
+  def valid_move?(index)
+    index.between?(0,8) && !position_taken?(index)
+  end
+
+  def turn
+    puts "Please enter 1-9:"
+    user_input = gets.strip
+    index = input_to_index(user_input)
+    if valid_move?(index)
+      move(index, current_player)
+      display_board
+    else
+      turn
+    end
+  end
+
+  
+
   def play
     while !over?
       turn
@@ -39,10 +61,6 @@ class TicTacToe
     elsif draw?
       puts "Cat's Game!"
     end
-  end
-
-  def valid_move?(index)
-    index.between?(0,8) && !position_taken?(index)
   end
 
   def won?
@@ -63,22 +81,6 @@ class TicTacToe
 
   def over?
     won? || draw?
-  end
-
-  def turn
-    puts "Please enter 1-9:"
-    user_input = gets.strip
-    index = input_to_index(user_input)
-    if valid_move?(index)
-      move(index, current_player
-      display_board
-    else
-      turn
-    end
-  end
-
-  def position_taken?(index)
-    @board[index]== "X" || @board[index] == "O"
   end
 
   def current_player
